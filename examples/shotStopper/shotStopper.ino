@@ -330,10 +330,14 @@ void loop() {
 
     // update shot trajectory
     if(shot.brewing && !timerOnly){
-      shot.time_s[shot.datapoints] = seconds_f()-shot.start_timestamp_s;
-      shot.weight[shot.datapoints] = currentWeight;
-      shot.shotTimer = shot.time_s[shot.datapoints];
-      shot.datapoints++;
+      if(shot.datapoints < 1000){
+        shot.time_s[shot.datapoints] = seconds_f()-shot.start_timestamp_s;
+        shot.weight[shot.datapoints] = currentWeight;
+        shot.shotTimer = shot.time_s[shot.datapoints];
+        shot.datapoints++;
+      } else {
+        shot.shotTimer = seconds_f()-shot.start_timestamp_s;
+      }
 
       Serial.print(" ");
       Serial.print(shot.shotTimer);
